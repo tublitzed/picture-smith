@@ -6,6 +6,7 @@ class Input extends React.Component {
       <input
         type='text'
         ref='input'
+        placeholder='Type a phrase here...'
       />
     )
   }
