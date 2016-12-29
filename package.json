@@ -8,13 +8,17 @@
   },
   "author": "Rachel Tublitz",
   "dependencies": {
+    "deep-freeze": "0.0.1",
+    "expect.js": "^0.3.1",
     "express": "^4.14.0",
+    "foundation-sites": "^6.3.0",
     "jquery": "^3.1.1",
+    "oauth": "^0.9.12",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-redux": "^5.0.1",
     "redux": "^3.6.0",
-    "expect.js": "^0.3.1",
-    "deep-freeze": "0.0.1"
+    "the-noun-project": "^2.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
@@ -32,18 +36,19 @@
   },
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "build": "browserify ./app/assets/js/main.js -o ./public/js/main.bundle.js",
+    "dev": "nodemon server/index.js && npm run watch",
+    "build-js": "browserify ./app/assets/js/main.js -o ./public/js/main.bundle.js",
     "build-css": "node-sass --output-style=compressed app/assets/scss/main.scss public/css/main.css",
-    "watch-css": "nodemon -e scss -w ./app/assets/scss -x npm run build-css",
-    "watch-js": "nodemon -e js -w ./app/assets/js -x npm run build",
-    "w": "npm run watch-js"
+    "watch-js": "nodemon -e js -w ./app/assets/js -x 'npm run build-js'",
+    "watch-css": "nodemon -e scss -w ./app/assets/scss -x 'npm run build-css'",
+    "build": "npm run build-js & npm run build-css",
+    "watch": "npm run watch-js & npm run watch-css"
+
   },
   "browserify": {
     "transform": [
       [
-        "babelify",
-        {
+        "babelify", {
           "presets": [
             "es2015",
             "react"
