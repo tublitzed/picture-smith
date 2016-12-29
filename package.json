@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "build-css": "node-sass --output-style=compressed app/assets/scss/main.scss public/css/main.css",
+    "watch-css": "nodemon -e scss -w ./app/assets/scss -x npm run build-css",
+    "w": "npm run watch-css"
   },
   "repository": {
     "type": "git",
@@ -16,6 +19,7 @@
     "express": "^4.14.0"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "node-sass": "^4.1.1"
   }
 }
