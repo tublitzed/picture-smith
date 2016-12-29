@@ -1,0 +1,21 @@
+{
+  "name": "picture-smith",
+  "version": "0.0.0",
+  "description": "learning Express and Redux",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tublitzed/picture-smith.git"
+  },
+  "author": "Rachel Tublitz",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
