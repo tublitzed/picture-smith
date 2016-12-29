@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import phrase from './phrase';
+// just putting them all in one now so I can better understand it. then will
+// split out.
+import all from './phrase';
 
 const reducers = combineReducers({
-  phrase
+  all
 });
 
 export default reducers

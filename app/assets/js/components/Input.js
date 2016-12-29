@@ -5,8 +5,10 @@ class Input extends React.Component {
     return (
       <input
         type='text'
-        ref='input'
-        placeholder='Type a phrase here...'
+        placeholder={this.props.placeholder}
+        onChange={(e) => {
+          this.props.onChange(e);
+        }}
       />
     )
   }

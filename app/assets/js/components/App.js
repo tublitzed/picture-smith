@@ -4,7 +4,7 @@ import Input from './input'
 import Body from './body'
 import Header from './header'
 
-const App = ({ dispatch }) => {
+const App = ({ store, dispatch }) => {
   return (
     <div>
       <Header />
@@ -13,4 +13,8 @@ const App = ({ dispatch }) => {
   )
 }
 
-export default connect()(App)
+const mapStateToProps = (state) => ({
+  phrase: state.phrase
+});
+
+export default connect(mapStateToProps)(App)

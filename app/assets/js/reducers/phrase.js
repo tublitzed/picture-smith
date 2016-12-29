@@ -1,10 +1,15 @@
-const phrase = (state = [], action) => {
+// set an initial value on state so that it is never empty.
+const all = (state = [], action) => {
+  console.log(state)
+  console.log(action)
   switch (action.type) {
-    case 'SET_SENTENCE':
-      return action.phrase
+    case 'SUBMIT_PHRASE':
+      return state;
+    case 'CHANGE_PHRASE':
+      return action.phrase;
     default:
-      return state
+      return state;
   }
 }
 
-export default phrase
+export default all

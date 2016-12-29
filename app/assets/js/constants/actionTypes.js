@@ -1,0 +1,2 @@
+export const SUBMIT_PHRASE = 'SUBMIT_PHRASE'
+export const CHANGE_PHRASE = 'CHANGE_PHRASE'
