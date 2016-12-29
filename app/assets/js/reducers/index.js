@@ -1,8 +1,8 @@
-const sentences = (state = [], action) => {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
+import { combineReducers } from 'redux';
+import phrase from './phrase';
 
-export default sentences
+const reducers = combineReducers({
+  phrase
+});
+
+export default reducers

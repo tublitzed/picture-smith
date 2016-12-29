@@ -12,7 +12,14 @@ const Body = () => (
       <Input />
     </div>
     <div className='medium-3 columns'>
-      <Button />
+      <Button
+        onClick={() => {
+          console.log('hmmmm')
+        }}
+        cssClass='expanded'
+      >
+        Picture it...
+      </Button>
     </div>
   </div>
 )

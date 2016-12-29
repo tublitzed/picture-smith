@@ -4,10 +4,11 @@ class Button extends React.Component {
   render() {
     return (
       <button
-        className='button expanded'
+        className={'button '  + (this.props.cssClass ? this.props.cssClass : '')}
         ref='button'
+        onClick={() => this.props.onClick()}
       >
-        Picture it
+        {this.props.children}
       </button>
     )
   }
