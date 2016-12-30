@@ -1,13 +1,11 @@
-// set an initial value on state so that it is never empty.
-const phrase = (state = [], action) => {
-  console.log(state)
-  console.log(action)
+// Remember here that this is only the phrase part of the state, not the entire
+// state object.
+const phrase = (state = '', action) => {
   switch (action.type) {
     case 'SUBMIT_PHRASE':
       return state;
     case 'CHANGE_PHRASE':
-      console.log('this should change the phrase');
-      return Object.assign({}, state, { phrase: action.phrase });
+      return action.phrase;
     default:
       return state;
   }
