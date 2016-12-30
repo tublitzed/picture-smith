@@ -105,17 +105,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _input = require('./input');
-
-var _input2 = _interopRequireDefault(_input);
 
 var _button = require('./button');
 
@@ -132,6 +126,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+//import Input from './input'
+
 
 var Body = function (_React$Component) {
   _inherits(Body, _React$Component);
@@ -158,12 +154,15 @@ var Body = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'medium-9 columns' },
-          _react2.default.createElement(_input2.default, _extends({
+          _react2.default.createElement('input', {
+            type: 'text',
+            placeholder: this.props.placeholder,
             onChange: function onChange(e) {
+              console.log(e.target.value);
               _this2.props.changePhrase(e.target.value);
             },
-            placeholder: 'Type a phrase here...'
-          }, this.props))
+            value: this.props.phrase
+          })
         ),
         _react2.default.createElement(
           'div',
@@ -171,9 +170,7 @@ var Body = function (_React$Component) {
           _react2.default.createElement(
             _button2.default,
             {
-              onClick: function onClick() {
-                _this2.props.submitPhrase();
-              },
+              onClick: this.props.submitPhrase,
               cssClass: 'expanded'
             },
             'Picture it...'
@@ -188,7 +185,7 @@ var Body = function (_React$Component) {
 
 exports.default = Body;
 
-},{"./button":4,"./input":6,"./phrase":7,"react":215}],4:[function(require,module,exports){
+},{"./button":4,"./phrase":7,"react":215}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -262,52 +259,27 @@ var Header = function Header() {
 exports.default = Header;
 
 },{"react":215}],6:[function(require,module,exports){
-'use strict';
+// import React from 'react'
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+// class Input extends React.Component {
+//   render() {
+//     console.log('rendering input')
+//     console.log(this);
+//     return (
+//       <input
+//         type='text'
+//         placeholder={this.props.placeholder}
+//         onChange={this.props.onChange}
+//         value={this.props.phrase}
+//       />
+//     )
+//   }
+// }
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+// export default Input
+"use strict";
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Input = function (_React$Component) {
-  _inherits(Input, _React$Component);
-
-  function Input() {
-    _classCallCheck(this, Input);
-
-    return _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).apply(this, arguments));
-  }
-
-  _createClass(Input, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('input', {
-        type: 'text',
-        placeholder: this.props.placeholder,
-        onChange: this.props.onChange
-      });
-    }
-  }]);
-
-  return Input;
-}(_react2.default.Component);
-
-exports.default = Input;
-
-},{"react":215}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -379,15 +351,52 @@ var _reducers = require('./reducers');
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
+var _store = require('./store');
+
+var _store2 = _interopRequireDefault(_store);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
-  { store: (0, _redux.createStore)(_reducers2.default, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()) },
+  { store: _store2.default },
   _react2.default.createElement(_App2.default, null)
 ), document.getElementById('app-root'));
 
-},{"./components/App":2,"./reducers":10,"react":215,"react-dom":49,"react-redux":185,"redux":221}],10:[function(require,module,exports){
+},{"./components/App":2,"./reducers":10,"./store":11,"react":215,"react-dom":49,"react-redux":185,"redux":221}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// import { combineReducers } from 'redux';
+// import phrase from './phrase';
+
+
+// const reducers = combineReducers({
+//   phrase
+// });
+
+var reducers = function reducers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SUBMIT_PHRASE':
+      return state;
+    case 'CHANGE_PHRASE':
+      console.log('this should change the state:');
+      console.log(action.phrase);
+      console.log(state);
+      return Object.assign({}, state, { phrase: action.phrase });
+    default:
+      return state;
+  }
+};
+
+exports.default = reducers;
+
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -396,45 +405,25 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = require('redux');
 
-var _phrase = require('./phrase');
+var _index = require('./reducers/index');
 
-var _phrase2 = _interopRequireDefault(_phrase);
+var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var reducers = (0, _redux.combineReducers)({
-  phrase: _phrase2.default
-});
-
-exports.default = reducers;
-
-},{"./phrase":11,"redux":221}],11:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-// set an initial value on state so that it is never empty.
-var phrase = function phrase() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
-
-  console.log(state);
-  console.log(action);
-  switch (action.type) {
-    case 'SUBMIT_PHRASE':
-      return state;
-    case 'CHANGE_PHRASE':
-      console.log('this should change the phrase');
-      return Object.assign({}, state, { phrase: action.phrase });
-    default:
-      return state;
-  }
+// create an object for the default data.
+var defaultState = {
+  phrase: 'foo'
 };
 
-exports.default = phrase;
+// import the root reducer.
 
-},{}],12:[function(require,module,exports){
+
+var store = (0, _redux.createStore)(_index2.default, defaultState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+exports.default = store;
+
+},{"./reducers/index":10,"redux":221}],12:[function(require,module,exports){
 (function (process){
 'use strict';
 

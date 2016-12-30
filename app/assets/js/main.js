@@ -5,8 +5,10 @@ import { Provider } from 'react-redux'
 import App from './components/App'
 import reducers from './reducers'
 
+import store from './store';
+
 render(
-  <Provider store={createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('app-root')
