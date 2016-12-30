@@ -6,9 +6,7 @@ class Input extends React.Component {
       <input
         type='text'
         placeholder={this.props.placeholder}
-        onChange={(e) => {
-          this.props.onChange(e);
-        }}
+        onChange={this.props.onChange}
       />
     )
   }

@@ -1,20 +1,29 @@
 import React from 'react'
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import Input from './input'
 import Body from './body'
 import Header from './header'
 
-const App = ({ store, dispatch }) => {
-  return (
-    <div>
-      <Header />
-      <Body />
-    </div>
-  )
+import * as actionCreators from '../actions/actionCreators';
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header {...this.props} />
+        <Body {...this.props} />
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => ({
   phrase: state.phrase
 });
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

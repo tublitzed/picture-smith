@@ -26,9 +26,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _redux = require('redux');
 
 var _reactRedux = require('react-redux');
 
@@ -44,19 +48,43 @@ var _header = require('./header');
 
 var _header2 = _interopRequireDefault(_header);
 
+var _actionCreators = require('../actions/actionCreators');
+
+var actionCreators = _interopRequireWildcard(_actionCreators);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function App(_ref) {
-  var store = _ref.store,
-      dispatch = _ref.dispatch;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(_header2.default, null),
-    _react2.default.createElement(_body2.default, null)
-  );
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App() {
+    _classCallCheck(this, App);
+
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+  }
+
+  _createClass(App, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_header2.default, this.props),
+        _react2.default.createElement(_body2.default, this.props)
+      );
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -64,20 +92,26 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+};
 
-},{"./body":3,"./header":5,"./input":6,"react":215,"react-redux":185}],3:[function(require,module,exports){
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
+
+},{"../actions/actionCreators":1,"./body":3,"./header":5,"./input":6,"react":215,"react-redux":185,"redux":221}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = require('react-redux');
 
 var _input = require('./input');
 
@@ -91,51 +125,70 @@ var _phrase = require('./phrase');
 
 var _phrase2 = _interopRequireDefault(_phrase);
 
-var _actions = require('../actions');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Body = function Body(_ref) {
-  var dispatch = _ref.dispatch;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  return _react2.default.createElement(
-    'div',
-    { className: 'row' },
-    _react2.default.createElement(
-      'div',
-      { className: 'medium-12 columns' },
-      _react2.default.createElement(_phrase2.default, null)
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'medium-9 columns' },
-      _react2.default.createElement(_input2.default, {
-        onChange: function onChange(e) {
-          dispatch((0, _actions.changePhrase)(e.target.value));
-        },
-        placeholder: 'Type a phrase here...'
-      })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'medium-3 columns' },
-      _react2.default.createElement(
-        _button2.default,
-        {
-          onClick: function onClick() {
-            dispatch((0, _actions.submitPhrase)());
-          },
-          cssClass: 'expanded'
-        },
-        'Picture it...'
-      )
-    )
-  );
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-exports.default = (0, _reactRedux.connect)()(Body);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-},{"../actions":1,"./button":4,"./input":6,"./phrase":7,"react":215,"react-redux":185}],4:[function(require,module,exports){
+var Body = function (_React$Component) {
+  _inherits(Body, _React$Component);
+
+  function Body() {
+    _classCallCheck(this, Body);
+
+    return _possibleConstructorReturn(this, (Body.__proto__ || Object.getPrototypeOf(Body)).apply(this, arguments));
+  }
+
+  _createClass(Body, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'row' },
+        _react2.default.createElement(
+          'div',
+          { className: 'medium-12 columns' },
+          _react2.default.createElement(_phrase2.default, null)
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'medium-9 columns' },
+          _react2.default.createElement(_input2.default, _extends({
+            onChange: function onChange(e) {
+              _this2.props.changePhrase(e.target.value);
+            },
+            placeholder: 'Type a phrase here...'
+          }, this.props))
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'medium-3 columns' },
+          _react2.default.createElement(
+            _button2.default,
+            {
+              onClick: function onClick() {
+                _this2.props.submitPhrase();
+              },
+              cssClass: 'expanded'
+            },
+            'Picture it...'
+          )
+        )
+      );
+    }
+  }]);
+
+  return Body;
+}(_react2.default.Component);
+
+exports.default = Body;
+
+},{"./button":4,"./input":6,"./phrase":7,"react":215}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -168,16 +221,12 @@ var Button = function (_React$Component) {
   _createClass(Button, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'button',
         {
           className: 'button ' + (this.props.cssClass ? this.props.cssClass : ''),
           ref: 'button',
-          onClick: function onClick() {
-            return _this2.props.onClick();
-          }
+          onClick: this.props.onClick
         },
         this.props.children
       );
@@ -245,14 +294,10 @@ var Input = function (_React$Component) {
   _createClass(Input, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement('input', {
         type: 'text',
         placeholder: this.props.placeholder,
-        onChange: function onChange(e) {
-          _this2.props.onChange(e);
-        }
+        onChange: this.props.onChange
       });
     }
   }]);
@@ -358,10 +403,9 @@ var _phrase2 = _interopRequireDefault(_phrase);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reducers = (0, _redux.combineReducers)({
-  all: _phrase2.default
+  phrase: _phrase2.default
 });
-// just putting them all in one now so I can better understand it. then will
-// split out.
+
 exports.default = reducers;
 
 },{"./phrase":11,"redux":221}],11:[function(require,module,exports){
@@ -371,7 +415,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 // set an initial value on state so that it is never empty.
-var all = function all() {
+var phrase = function phrase() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
@@ -381,13 +425,14 @@ var all = function all() {
     case 'SUBMIT_PHRASE':
       return state;
     case 'CHANGE_PHRASE':
-      return action.phrase;
+      console.log('this should change the phrase');
+      return Object.assign({}, state, { phrase: action.phrase });
     default:
       return state;
   }
 };
 
-exports.default = all;
+exports.default = phrase;
 
 },{}],12:[function(require,module,exports){
 (function (process){
