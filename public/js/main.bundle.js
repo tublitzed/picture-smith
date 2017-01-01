@@ -116,9 +116,13 @@ var App = function (_React$Component) {
   return App;
 }(_react2.default.Component);
 
+// TODO: should pictures be bound at a lower level?
+
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    phrase: state.phrase
+    phrase: state.phrase,
+    pictures: state.pictures
   };
 };
 
@@ -176,7 +180,7 @@ var Body = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'medium-12 columns' },
-        _react2.default.createElement(_picture2.default, null)
+        _react2.default.createElement(_picture2.default, this.props)
       );
     }
   }, {
@@ -389,9 +393,54 @@ var Picture = function (_React$Component) {
   }
 
   _createClass(Picture, [{
+    key: 'getPicture',
+    value: function getPicture(word) {
+      return this.props.pictures.find(function (picture) {
+        return picture.word == word;
+      });
+    }
+  }, {
+    key: 'renderPhrase',
+    value: function renderPhrase() {
+      var _this2 = this;
+
+      var words = this.props.phrase.trim().split();
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        words.map(function (word, i) {
+          var pic = _this2.getPicture(word);
+          if (pic) {
+            return _react2.default.createElement('img', { src: pic.imageUrl, key: i });
+          } else {
+            return _react2.default.createElement(
+              'span',
+              { key: i },
+              word
+            );
+          }
+        })
+      );
+    }
+  }, {
+    key: 'renderPlaceholder',
+    value: function renderPlaceholder() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        'placeholder here'
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', { className: 'picture' });
+      console.log(this);
+      return _react2.default.createElement(
+        'div',
+        { className: 'picture' },
+        this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder()
+      );
     }
   }]);
 
@@ -482,7 +531,7 @@ var doFetch = function doFetch(word) {
  * @param {Object} action - triggering action.
  */
 function fetchPictures(action) {
-  var _ref, data, imageUrl;
+  var _ref, data;
 
   return regeneratorRuntime.wrap(function fetchPictures$(_context) {
     while (1) {
@@ -495,14 +544,15 @@ function fetchPictures(action) {
         case 3:
           _ref = _context.sent;
           data = _ref.data;
-          imageUrl = data.data.icon.preview_url;
+
+          console.log(data);
           _context.next = 8;
           return (0, _effects.put)({
             type: "FETCH_PICTURES_SUCCESS",
             // just one for now, will parse into more later
             pictures: [{
-              imageUrl: imageUrl,
-              phrase: action.phrase
+              imageUrl: data.icon.preview_url,
+              word: action.phrase
             }]
           });
 

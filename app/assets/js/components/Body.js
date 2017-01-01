@@ -7,7 +7,7 @@ class Body extends React.Component {
   renderPicture() {
     return (
       <div className='medium-12 columns'>
-        <Picture />
+        <Picture {...this.props} />
       </div>
     )
   }

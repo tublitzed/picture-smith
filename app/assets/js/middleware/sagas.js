@@ -29,13 +29,13 @@ const doFetch = (word) => {
 function* fetchPictures(action) {
   try {
     const { data } = yield doFetch(action.phrase);
-    const imageUrl = data.data.icon.preview_url;
+    console.log(data);
     yield put({
       type: "FETCH_PICTURES_SUCCESS",
       // just one for now, will parse into more later
       pictures: [{
-        imageUrl: imageUrl,
-        phrase: action.phrase
+        imageUrl: data.icon.preview_url,
+        word: action.phrase
       }]
     });
   } catch (e) {

@@ -18,8 +18,10 @@ class App extends React.Component {
   }
 }
 
+// TODO: should pictures be bound at a lower level?
 const mapStateToProps = (state) => ({
-  phrase: state.phrase
+  phrase: state.phrase,
+  pictures: state.pictures
 });
 
 const mapDispatchToProps = (dispatch) => {
