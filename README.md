@@ -1,12 +1,7 @@
 # picture-smith
-learning Express and Redux
-
-
-## To start the application:
-
-- `npm run dev` - this will restart the server locally when making changes to the server. `npm start` will also work, but it won't restart the server.
+Learning Express and Redux
 
 
 ## TODOS
 
-- Get the watch scripts to watch both css and js.
+- Fix the build scripts. For now, just run `npm start` for the server in one window, and `npm run watch` for js builds only in another.

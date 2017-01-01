@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes'
 
 export const submitPhrase = () => ({
-  type: types.SUBMIT_PHRASE
+  type: 'USER_FETCH_REQUESTED'
 })
 
 export const changePhrase = (phrase) => ({

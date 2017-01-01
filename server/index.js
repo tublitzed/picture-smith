@@ -15,7 +15,8 @@ app.get('/', function(req, res) {
   });
 })
 
-app.get('/icon/:word', function(req, res) {
+// expose a single "api" endpoint to the front-end.
+app.get('/api/image/:word', function(req, res) {
   nounProject = new NounProject({
     key: 'c1f6c72669324cf98664b4aee38f5a42',
     secret: 'f2944d3f61e848948f71b98c45bf744a'
