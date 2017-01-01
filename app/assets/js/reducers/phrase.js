@@ -3,8 +3,6 @@
 const phrase = (state = '', action) => {
   switch (action.type) {
     case 'SUBMIT_PHRASE':
-      console.log(state);
-      console.log(action);
       return state;
     case 'CHANGE_PHRASE':
       return action.phrase;

@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers';
 
 // import the saga middleware (which handles ajax requests)
-import mySaga from './middleware/sagas'
+import submitSaga from './middleware/sagas'
 const sagaMiddleware = createSagaMiddleware()
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,6 +21,6 @@ const store = createStore(
   )
 );
 
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(submitSaga);
 
 export default store;

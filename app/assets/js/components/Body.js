@@ -21,7 +21,8 @@ class Body extends React.Component {
           }}
           value={this.props.phrase}
           placeholder='Type your phrase here...'
-          type='text' />
+          type='text'
+          ref='input' />
       </div>
     )
   }
@@ -30,7 +31,9 @@ class Body extends React.Component {
     return (
       <div className='medium-3 columns'>
         <Button
-          onClick={this.props.submitPhrase}
+          onClick={() => {
+            this.props.submitPhrase(this.refs.input.props.value)
+          }}
           cssClass='expanded'
         >
           Picture it...

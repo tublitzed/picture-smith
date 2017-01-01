@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changePhrase = exports.submitPhrase = undefined;
+exports.fetchPicturesError = exports.fetchPicturesSuccess = exports.changePictures = exports.changePhrase = exports.submitPhrase = undefined;
 
 var _ActionTypes = require('../constants/ActionTypes');
 
@@ -12,9 +12,12 @@ var types = _interopRequireWildcard(_ActionTypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var submitPhrase = exports.submitPhrase = function submitPhrase() {
+// TODO: will work initially for one word. Once that's running, then
+// modify this to work for entire sentence.
+var submitPhrase = exports.submitPhrase = function submitPhrase(phrase) {
   return {
-    type: 'USER_FETCH_REQUESTED'
+    type: types.SUBMIT_PHRASE,
+    phrase: phrase
   };
 };
 
@@ -22,6 +25,27 @@ var changePhrase = exports.changePhrase = function changePhrase(phrase) {
   return {
     type: types.CHANGE_PHRASE,
     phrase: phrase
+  };
+};
+
+var changePictures = exports.changePictures = function changePictures(pictures) {
+  return {
+    type: types.CHANGE_PICTURES,
+    pictures: pictures
+  };
+};
+
+var fetchPicturesSuccess = exports.fetchPicturesSuccess = function fetchPicturesSuccess(data) {
+  return {
+    type: types.FETCH_PICTURES_SUCCESS,
+    data: data
+  };
+};
+
+var fetchPicturesError = exports.fetchPicturesError = function fetchPicturesError(data) {
+  return {
+    type: types.FETCH_PICTURES_ERROR,
+    data: data
   };
 };
 
@@ -169,19 +193,24 @@ var Body = function (_React$Component) {
           },
           value: this.props.phrase,
           placeholder: 'Type your phrase here...',
-          type: 'text' })
+          type: 'text',
+          ref: 'input' })
       );
     }
   }, {
     key: 'renderButton',
     value: function renderButton() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'div',
         { className: 'medium-3 columns' },
         _react2.default.createElement(
           _button2.default,
           {
-            onClick: this.props.submitPhrase,
+            onClick: function onClick() {
+              _this3.props.submitPhrase(_this3.refs.input.props.value);
+            },
             cssClass: 'expanded'
           },
           'Picture it...'
@@ -380,6 +409,11 @@ Object.defineProperty(exports, "__esModule", {
 var SUBMIT_PHRASE = exports.SUBMIT_PHRASE = 'SUBMIT_PHRASE';
 var CHANGE_PHRASE = exports.CHANGE_PHRASE = 'CHANGE_PHRASE';
 
+var FETCH_PICTURES_SUCCESS = exports.FETCH_PICTURES_SUCCESS = 'FETCH_PICTURES_SUCCESS';
+var FETCH_PICTURES_ERROR = exports.FETCH_PICTURES_ERROR = 'FETCH_PICTURES_ERROR';
+
+var CHANGE_PICTURES = exports.CHANGE_PICTURES = 'CHANGE_PICTURES';
+
 },{}],9:[function(require,module,exports){
 'use strict';
 
@@ -418,91 +452,95 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _ActionTypes = require('../constants/ActionTypes');
+
+var types = _interopRequireWildcard(_ActionTypes);
+
 var _effects = require('redux-saga/effects');
 
-var _marked = [fetchUser, mySaga].map(regeneratorRuntime.mark);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-//import Api from '...'
+var _marked = [fetchPictures, submitSaga].map(regeneratorRuntime.mark);
 
-
-var fetchImages = function fetchImages(word) {
-  return fetch('/api/image/' + word, {
-    method: 'GET'
-  }).then(function (response) {
+/**
+ * Load a single word via ajax
+ * @param  {string} word
+ */
+var doFetch = function doFetch(word) {
+  return fetch('/api/image/' + word).then(function (response) {
     console.log(response);
     return response.json();
   }).catch(function (error) {
-    // TODO: clean this up
-    // yield put({
-    //   type: "USER_FETCH_FAILED",
-    //   message: e.message
-    // });
+    // TODO
   });
 };
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function fetchUser(action) {
-  var data;
-  return regeneratorRuntime.wrap(function fetchUser$(_context) {
+/**
+ * Will attempt to load pictures, and trigger actions
+ * on success/failure.
+ *
+ * @param {Object} action - triggering action.
+ */
+function fetchPictures(action) {
+  var _ref, data, imageUrl;
+
+  return regeneratorRuntime.wrap(function fetchPictures$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          console.log(action);
-          _context.prev = 1;
-          _context.next = 4;
-          return fetchImages('car');
+          _context.prev = 0;
+          _context.next = 3;
+          return doFetch(action.phrase);
 
-        case 4:
-          data = _context.sent;
-          _context.next = 7;
+        case 3:
+          _ref = _context.sent;
+          data = _ref.data;
+          imageUrl = data.data.icon.preview_url;
+          _context.next = 8;
           return (0, _effects.put)({
-            type: "USER_FETCH_SUCCEEDED",
-            data: data
+            type: "FETCH_PICTURES_SUCCESS",
+            // just one for now, will parse into more later
+            pictures: [{
+              imageUrl: imageUrl,
+              phrase: action.phrase
+            }]
           });
 
-        case 7:
-          _context.next = 13;
+        case 8:
+          _context.next = 14;
           break;
 
-        case 9:
-          _context.prev = 9;
-          _context.t0 = _context['catch'](1);
-          _context.next = 13;
+        case 10:
+          _context.prev = 10;
+          _context.t0 = _context['catch'](0);
+          _context.next = 14;
           return (0, _effects.put)({
-            type: "USER_FETCH_FAILED",
+            type: "FETCH_PICTURES_ERROR",
             message: _context.t0.message
           });
 
-        case 13:
+        case 14:
         case 'end':
           return _context.stop();
       }
     }
-  }, _marked[0], this, [[1, 9]]);
+  }, _marked[0], this, [[0, 10]]);
 }
 
-/*
-  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
-  Allows concurrent fetches of user.
-*/
-// function* mySaga() {
-//   yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
-// }
-
-/*
-  Alternatively you may use takeLatest.
-
-  Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
-  dispatched while a fetch is already pending, that pending fetch is cancelled
-  and only the latest one will be run.
-*/
-function mySaga() {
-  return regeneratorRuntime.wrap(function mySaga$(_context2) {
+/**
+ * This will listen for any action of the matching type, and run the saga.
+ *
+ * Does not allow concurrent fetches. If types.SUBMIT_PHRASE gets
+ * dispatched while a fetch is already pending, that pending fetch is cancelled
+ * and only the latest one will be run. There is also a "takeEvery" that will allow concurrency.
+ */
+function submitSaga() {
+  return regeneratorRuntime.wrap(function submitSaga$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return (0, _effects.takeLatest)("USER_FETCH_REQUESTED", fetchUser);
+          return (0, _effects.takeLatest)(types.SUBMIT_PHRASE, fetchPictures);
 
         case 2:
         case 'end':
@@ -512,9 +550,9 @@ function mySaga() {
   }, _marked[1], this);
 }
 
-exports.default = mySaga;
+exports.default = submitSaga;
 
-},{"redux-saga/effects":519}],11:[function(require,module,exports){
+},{"../constants/ActionTypes":8,"redux-saga/effects":519}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -552,8 +590,6 @@ var phrase = function phrase() {
 
   switch (action.type) {
     case 'SUBMIT_PHRASE':
-      console.log(state);
-      console.log(action);
       return state;
     case 'CHANGE_PHRASE':
       return action.phrase;
@@ -575,11 +611,11 @@ var pictures = function pictures() {
   var action = arguments[1];
 
   switch (action.type) {
-    case 'USER_FETCH_SUCCEEDED':
+    case 'FETCH_PICTURES_SUCCESS':
       console.log('yep success');
       console.log(action);
-      return state;
-    case 'USER_FETCH_FAILED':
+      return action.pictures;
+    case 'FETCH_PICTURES_ERROR':
       console.log('yep! fail');
       console.log(action);
       return state;

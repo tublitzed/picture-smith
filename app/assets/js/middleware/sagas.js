@@ -1,63 +1,60 @@
+import * as types from '../constants/ActionTypes'
 import {
   call,
   put,
-  takeEvery,
   takeLatest
 } from 'redux-saga/effects'
-//import Api from '...'
 
-
-const fetchImages = (word) => {
-  return fetch('/api/image/' + word, {
-    method: 'GET'
-  })
+/**
+ * Load a single word via ajax
+ * @param  {string} word
+ */
+const doFetch = (word) => {
+  return fetch('/api/image/' + word)
     .then(function(response) {
-      console.log(response)
+      console.log(response);
       return response.json();
     })
     .catch(function(error) {
-      // TODO: clean this up
-      // yield put({
-      //   type: "USER_FETCH_FAILED",
-      //   message: e.message
-      // });
+      // TODO
     })
 };
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action) {
-  console.log(action)
+/**
+ * Will attempt to load pictures, and trigger actions
+ * on success/failure.
+ *
+ * @param {Object} action - triggering action.
+ */
+function* fetchPictures(action) {
   try {
-    const data = yield fetchImages('car');
+    const { data } = yield doFetch(action.phrase);
+    const imageUrl = data.data.icon.preview_url;
     yield put({
-      type: "USER_FETCH_SUCCEEDED",
-      data: data
+      type: "FETCH_PICTURES_SUCCESS",
+      // just one for now, will parse into more later
+      pictures: [{
+        imageUrl: imageUrl,
+        phrase: action.phrase
+      }]
     });
   } catch (e) {
     yield put({
-      type: "USER_FETCH_FAILED",
+      type: "FETCH_PICTURES_ERROR",
       message: e.message
     });
   }
 }
 
-/*
-  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
-  Allows concurrent fetches of user.
-*/
-// function* mySaga() {
-//   yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
-// }
-
-/*
-  Alternatively you may use takeLatest.
-
-  Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
-  dispatched while a fetch is already pending, that pending fetch is cancelled
-  and only the latest one will be run.
-*/
-function* mySaga() {
-  yield takeLatest("USER_FETCH_REQUESTED", fetchUser);
+/**
+ * This will listen for any action of the matching type, and run the saga.
+ *
+ * Does not allow concurrent fetches. If types.SUBMIT_PHRASE gets
+ * dispatched while a fetch is already pending, that pending fetch is cancelled
+ * and only the latest one will be run. There is also a "takeEvery" that will allow concurrency.
+ */
+function* submitSaga() {
+  yield takeLatest(types.SUBMIT_PHRASE, fetchPictures);
 }
 
-export default mySaga;
+export default submitSaga;
