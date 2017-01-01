@@ -1,12 +1,15 @@
 var express = require('express');
+var bodyParser = require('body-parser'); // for reading JSON in requests.
+
 var path = require('path');
 var app = express();
-var NounProject = require('the-noun-project');
 var SERVER_PORT = 4000;
 var ROOT_PATH = __dirname + '/../';
 var VIEWS_PATH = ROOT_PATH + '/app/views';
 
-var fakeDataResponse = require('./tempResponse.json');
+var Response = require('./response/');
+
+app.use(bodyParser.json()); // to support JSON-encoded bodies
 
 app.set('views', '../views');
 app.set('views engine', 'html');
@@ -18,34 +21,8 @@ app.get('/', function(req, res) {
 })
 
 // expose a single "api" endpoint to the front-end.
-app.get('/api/image/:word', function(req, res) {
-
-  // res.send({
-  //   success: true,
-  //   data: fakeDataResponse
-  // });
-
-  // TODO: once response parsing is working again, uncomment this.
-  // Faking a response for now with hardcoded data to avoid hitting API limits.
-  //
-  //
-  nounProject = new NounProject({
-    key: 'c1f6c72669324cf98664b4aee38f5a42',
-    secret: 'f2944d3f61e848948f71b98c45bf744a'
-  });
-  nounProject.getIconByTerm(req.params.word, function(err, data) {
-    if (!err) {
-      res.send({
-        success: true,
-        data: data
-      });
-    } else {
-      res.send({
-        success: false,
-        error: err
-      })
-    }
-  });
+app.post('/api/images', function(req, res) {
+  Response.getImages(res, [], req.body.words, 0);
 })
 
 app.use('/public', express.static(ROOT_PATH + '/public'));

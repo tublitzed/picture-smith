@@ -6,11 +6,21 @@ import {
 } from 'redux-saga/effects'
 
 /**
- * Load a single word via ajax
- * @param  {string} word
+ * Load all images via ajax.
+ * @param  {String} phrase
  */
-const doFetch = (word) => {
-  return fetch('/api/image/' + word)
+const doFetch = (phrase) => {
+  const request = new Request('/api/images', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify({
+      words: phrase.trim().split(' ')
+    })
+  });
+
+  return fetch(request)
     .then(function(response) {
       console.log(response);
       return response.json();
@@ -28,15 +38,18 @@ const doFetch = (word) => {
  */
 function* fetchPictures(action) {
   try {
-    const { data } = yield doFetch(action.phrase);
+    const {
+      data
+    } = yield doFetch(action.phrase);
     console.log(data);
     yield put({
       type: "FETCH_PICTURES_SUCCESS",
-      // just one for now, will parse into more later
-      pictures: [{
-        imageUrl: data.icon.preview_url,
-        word: action.phrase
-      }]
+      pictures: data.map((item) => {
+        return {
+          word: item.word,
+          imageUrl: item.success ? item.data.icon.preview_url : null
+        }
+      })
     });
   } catch (e) {
     yield put({

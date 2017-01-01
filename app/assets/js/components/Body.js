@@ -35,6 +35,7 @@ class Body extends React.Component {
             this.props.submitPhrase(this.refs.input.props.value)
           }}
           cssClass='expanded'
+          type='submit'
         >
           Picture it...
         </Button>
@@ -42,12 +43,18 @@ class Body extends React.Component {
     )
   }
 
+  submitForm(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div className='row'>
-        {this.renderPicture()}
-        {this.renderInput()}
-        {this.renderButton()}
+        <form onSubmit={this.submitForm} >
+          {this.renderPicture()}
+          {this.renderInput()}
+          {this.renderButton()}
+        </form>
       </div>
     )
   }

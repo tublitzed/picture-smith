@@ -4,21 +4,21 @@ class Picture extends React.Component {
 
   getPicture(word) {
     return this.props.pictures.find((picture) => {
-      return picture.word == word;
+      return picture.word == word && picture.imageUrl;
     });
   }
 
   renderPhrase() {
-    const words = this.props.phrase.trim().split();
+    const words = this.props.phrase.trim().split(' ');
 
     return (
       <div>
           {words.map((word, i) => {
             const pic = this.getPicture(word);
             if (pic) {
-              return <img src={pic.imageUrl} key={i} />;
+              return <img src={pic.imageUrl} key={i} className='picture__img' />;
             } else {
-              return <span key={i}>{word}</span>;
+              return <span className='picture__text' key={i}>{word}</span>;
             }
           })}
       </div>
@@ -34,10 +34,11 @@ class Picture extends React.Component {
   }
 
   render() {
-    console.log(this)
     return (
       <div className='picture'>
-        { this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder() }
+        <div className='picture__content'>
+          { this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder() }
+        </div>
       </div>
     )
   }

@@ -215,11 +215,17 @@ var Body = function (_React$Component) {
             onClick: function onClick() {
               _this3.props.submitPhrase(_this3.refs.input.props.value);
             },
-            cssClass: 'expanded'
+            cssClass: 'expanded',
+            type: 'submit'
           },
           'Picture it...'
         )
       );
+    }
+  }, {
+    key: 'submitForm',
+    value: function submitForm(e) {
+      e.preventDefault();
     }
   }, {
     key: 'render',
@@ -227,9 +233,13 @@ var Body = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'row' },
-        this.renderPicture(),
-        this.renderInput(),
-        this.renderButton()
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.submitForm },
+          this.renderPicture(),
+          this.renderInput(),
+          this.renderButton()
+        )
       );
     }
   }]);
@@ -276,7 +286,8 @@ var Button = function (_React$Component) {
         'button',
         {
           className: 'button ' + (this.props.cssClass ? this.props.cssClass : ''),
-          onClick: this.props.onClick
+          onClick: this.props.onClick,
+          type: this.props.type || 'button'
         },
         this.props.children
       );
@@ -396,7 +407,7 @@ var Picture = function (_React$Component) {
     key: 'getPicture',
     value: function getPicture(word) {
       return this.props.pictures.find(function (picture) {
-        return picture.word == word;
+        return picture.word == word && picture.imageUrl;
       });
     }
   }, {
@@ -404,7 +415,7 @@ var Picture = function (_React$Component) {
     value: function renderPhrase() {
       var _this2 = this;
 
-      var words = this.props.phrase.trim().split();
+      var words = this.props.phrase.trim().split(' ');
 
       return _react2.default.createElement(
         'div',
@@ -412,11 +423,11 @@ var Picture = function (_React$Component) {
         words.map(function (word, i) {
           var pic = _this2.getPicture(word);
           if (pic) {
-            return _react2.default.createElement('img', { src: pic.imageUrl, key: i });
+            return _react2.default.createElement('img', { src: pic.imageUrl, key: i, className: 'picture__img' });
           } else {
             return _react2.default.createElement(
               'span',
-              { key: i },
+              { className: 'picture__text', key: i },
               word
             );
           }
@@ -435,11 +446,14 @@ var Picture = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(this);
       return _react2.default.createElement(
         'div',
         { className: 'picture' },
-        this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder()
+        _react2.default.createElement(
+          'div',
+          { className: 'picture__content' },
+          this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder()
+        )
       );
     }
   }]);
@@ -512,11 +526,21 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var _marked = [fetchPictures, submitSaga].map(regeneratorRuntime.mark);
 
 /**
- * Load a single word via ajax
- * @param  {string} word
+ * Load all images via ajax.
+ * @param  {String} phrase
  */
-var doFetch = function doFetch(word) {
-  return fetch('/api/image/' + word).then(function (response) {
+var doFetch = function doFetch(phrase) {
+  var request = new Request('/api/images', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify({
+      words: phrase.trim().split(' ')
+    })
+  });
+
+  return fetch(request).then(function (response) {
     console.log(response);
     return response.json();
   }).catch(function (error) {
@@ -549,11 +573,12 @@ function fetchPictures(action) {
           _context.next = 8;
           return (0, _effects.put)({
             type: "FETCH_PICTURES_SUCCESS",
-            // just one for now, will parse into more later
-            pictures: [{
-              imageUrl: data.icon.preview_url,
-              word: action.phrase
-            }]
+            pictures: data.map(function (item) {
+              return {
+                word: item.word,
+                imageUrl: item.success ? item.data.icon.preview_url : null
+              };
+            })
           });
 
         case 8:
@@ -662,12 +687,8 @@ var pictures = function pictures() {
 
   switch (action.type) {
     case 'FETCH_PICTURES_SUCCESS':
-      console.log('yep success');
-      console.log(action);
       return action.pictures;
     case 'FETCH_PICTURES_ERROR':
-      console.log('yep! fail');
-      console.log(action);
       return state;
     default:
       return state;

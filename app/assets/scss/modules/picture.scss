@@ -1,0 +1,25 @@
+.picture {
+  background: #EEE;
+  border: 1px solid #CCC;
+  margin: 1em 0;
+  min-height: 150px;
+  display: flex;
+}
+
+.picture__content {
+  margin: auto;
+  text-align: center;
+}
+
+.picture__img {
+  width: 65px;
+  float: left;
+  margin: 0 6px;
+}
+
+.picture__text {
+  font-size: 40px;
+  margin: 0 10px;
+  display: inline-block;
+  float: left;
+}

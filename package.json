@@ -9,6 +9,7 @@
   "author": "Rachel Tublitz",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "deep-freeze": "0.0.1",
     "expect.js": "^0.3.1",
     "express": "^4.14.0",
@@ -39,7 +40,7 @@
   },
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js && npm run watch",
+    "dev": "nodemon server/index.js",
     "build-js": "browserify ./app/assets/js/main.js -o ./public/js/main.bundle.js",
     "build-css": "node-sass --output-style=compressed app/assets/scss/main.scss public/css/main.css",
     "watch-js": "nodemon -e js -w app/assets/js -x 'npm run build-js'",

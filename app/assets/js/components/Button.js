@@ -6,6 +6,7 @@ class Button extends React.Component {
       <button
         className={'button '  + (this.props.cssClass ? this.props.cssClass : '')}
         onClick={this.props.onClick}
+        type={this.props.type || 'button'}
       >
         {this.props.children}
       </button>
