@@ -11,10 +11,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "deep-freeze": "0.0.1",
+    "dotenv": "^2.0.0",
     "expect.js": "^0.3.1",
     "express": "^4.14.0",
     "foundation-sites": "^6.3.0",
-    "jquery": "^3.1.1",
     "oauth": "^0.9.12",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -31,7 +31,6 @@
     "babelify": "^7.2.0",
     "browserify": "~> 10.2.4",
     "browserify-incremental": "^3.0.1",
-    "browserify-shim": "^3.8.12",
     "eslint": "^2.7.0",
     "eslint-plugin-react": "^6.8.0",
     "node-sass": "^4.1.1",
@@ -58,19 +57,7 @@
             "react"
           ]
         }
-      ],
-      [
-        "browserify-shim"
       ]
-    ],
-    "alias": [
-      "jquery:node_modules/jquery/dist/jquery.min.js"
     ]
-  },
-  "browserify-shim": {
-    "jquery": "$"
-  },
-  "browser": {
-    "jquery": "./node_modules/jquery/dist/jquery.min.js"
   }
 }

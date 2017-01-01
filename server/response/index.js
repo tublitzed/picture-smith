@@ -4,8 +4,9 @@ var NounProject = require('the-noun-project');
  * Words to skip fetching an image for.
  */
 var SKIP_WORDS = [
-  'I',
   'are',
+  'i',
+  'is',
   'with',
   'from',
   'to'
@@ -18,8 +19,8 @@ const Response = {
    */
   getNounProjectInstance: function() {
     return this.nounProject || new NounProject({
-      key: 'c1f6c72669324cf98664b4aee38f5a42',
-      secret: 'f2944d3f61e848948f71b98c45bf744a'
+      key: process.env.NOUN_PROJECT_API_KEY,
+      secret: process.env.NOUN_PROJECT_API_SECRET
     });
   },
 
@@ -32,7 +33,7 @@ const Response = {
    * @return {[type]}
    */
   getImages: function(res, allData, words, index) {
-    if (SKIP_WORDS.indexOf(words[index]) !== -1) {
+    if (SKIP_WORDS.indexOf((words[index] || '').toLowerCase()) !== -1) {
       // skip this word
       allData.push({
         success: false,
