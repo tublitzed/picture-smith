@@ -22,7 +22,6 @@ const doFetch = (phrase) => {
 
   return fetch(request)
     .then(function(response) {
-      console.log(response);
       return response.json();
     })
     .catch(function(error) {
@@ -41,7 +40,6 @@ function* fetchPictures(action) {
     const {
       data
     } = yield doFetch(action.phrase);
-    console.log(data);
     yield put({
       type: "FETCH_PICTURES_SUCCESS",
       pictures: data.map((item) => {

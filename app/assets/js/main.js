@@ -1,4 +1,3 @@
-// keep this first to ensure polyfills get loaded first.
 import "babel-polyfill";
 
 import React from 'react'
