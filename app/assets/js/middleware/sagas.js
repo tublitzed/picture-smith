@@ -41,7 +41,7 @@ function* fetchPictures(action) {
       data
     } = yield doFetch(action.phrase);
     yield put({
-      type: "FETCH_PICTURES_SUCCESS",
+      type: 'FETCH_PICTURES_SUCCESS',
       pictures: data.map((item) => {
         return {
           word: item.word,
@@ -51,7 +51,7 @@ function* fetchPictures(action) {
     });
   } catch (e) {
     yield put({
-      type: "FETCH_PICTURES_ERROR",
+      type: 'FETCH_PICTURES_ERROR',
       message: e.message
     });
   }
