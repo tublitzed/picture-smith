@@ -27,8 +27,8 @@ class Picture extends React.Component {
 
   renderPlaceholder() {
     return (
-      <div>
-        placeholder here
+      <div className='picture__placeholder'>
+        Your picture will go here
       </div>
     )
   }
@@ -37,7 +37,7 @@ class Picture extends React.Component {
     return (
       <div className='picture'>
         <div className='picture__content'>
-          { this.props.phrase.trim() !== '' ? this.renderPhrase() : this.renderPlaceholder() }
+          { this.props.pictures.length ? this.renderPhrase() : this.renderPlaceholder() }
         </div>
       </div>
     )

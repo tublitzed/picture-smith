@@ -10,3 +10,6 @@ The app will take a simple sentence and transform it into pictures using the [No
 - `cp .env.example .env`
 - Now, replace the default values in `.env` with your Noun Project key & secret.
 - `npm start` to start the server.
+- Visit `http://localhost:3000/`
+
+For best results, try simple sentences, like "cats are cool", or "bacon is good".

@@ -1,5 +1,5 @@
 .picture {
-  background: #EEE;
+  background: #FFF;
   border: 1px solid #CCC;
   margin: 1em 0;
   min-height: 150px;
@@ -22,4 +22,8 @@
   margin: 0 10px;
   display: inline-block;
   float: left;
+}
+
+.picture__placeholder {
+  color: #a5a5a5;
 }

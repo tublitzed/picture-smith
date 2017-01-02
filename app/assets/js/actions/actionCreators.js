@@ -1,13 +1,11 @@
 import * as types from '../constants/ActionTypes'
 
-// TODO: will work initially for one word. Once that's running, then
-// modify this to work for entire sentence.
 export const submitPhrase = (phrase) => ({
   type: types.SUBMIT_PHRASE,
   phrase
 })
 
-export const changePhrase = (phrase) => ({
+export const changePhrase = (phrase, pictures) => ({
   type: types.CHANGE_PHRASE,
   phrase
 })

@@ -17,12 +17,16 @@ class Body extends React.Component {
       <div className='medium-9 columns'>
         <Input
           onChange={(e) => {
-            this.props.changePhrase(e.target.value)
+            this.props.changePhrase(e.target.value);
+
+            // clear the pictures when the content changes
+            this.props.changePictures([]);
           }}
           value={this.props.phrase}
           placeholder='Type your phrase here...'
           type='text'
-          ref='input' />
+          ref='input'
+          autoFocus={true} />
       </div>
     )
   }
