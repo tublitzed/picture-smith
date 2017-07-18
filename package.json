@@ -18,7 +18,6 @@
     "babel-preset-stage-0": "^6.0.15",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
-    "express": "^4.13.4",
     "node-sass": "^4.1.1",
     "nodemon": "^1.11.0",
     "react-hot-loader": "^1.3.0",
@@ -45,5 +44,8 @@
     "lint": "eslint app/assets/js/",
     "build-css": "node-sass --output-style=compressed app/assets/scss/main.scss public/css/main.css",
     "watch-css": "nodemon -e scss -w app/assets/scss -x 'npm run build-css'"
+  },
+  "engines": {
+    "node": "7.10.1"
   }
 }
